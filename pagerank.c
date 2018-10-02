@@ -6,13 +6,13 @@
 #include "pagerank.h"
 #define max_e 0.00001
 
-int N, max_it=1, k, VERBOSE = 0;
+int N, max_it=1, k, VERBOSE = 0, threads;
 int *ingoing;
 float *b, *page_rank;
 
 int main(int argc, char **argv){
 
-	if (argc != 3){
+	if (argc < 3){
 		printf("something bad happened.\n");
 		exit(1);
 	}
@@ -20,6 +20,7 @@ int main(int argc, char **argv){
 	N = atoi(argv[1]);  // number of websites
 	max_it = atoi(argv[2]);  // number of maximum iterations
 	float const_term = (1-0.85)/N;  // constant that will fill the b matrix
+	threads = atoi(argv[3]);  // number of threads in case of parallel executing
 
 	// --------------allocate memory for required arrays--------------
 	b = (float *)malloc(N * sizeof(float));
@@ -77,7 +78,7 @@ void gs(float** array){
 	float row_sum, error, temp, max_error;
 
 	for (it=0;it<max_it;it++){
-		#pragma omp parallel for num_threads(2)
+		#pragma omp parallel for num_threads(threads)
 		for(i=0;i<N;i++){
 			row_sum = 0;
 			row = i;
@@ -92,6 +93,6 @@ void gs(float** array){
 			} 
 			page_rank[i] = temp;
 		}
-		printf("iteration: %d error: %f\n", it+1, max_error);
+		// printf("iteration: %d error: %f\n", it+1, max_error);
 	}
 }

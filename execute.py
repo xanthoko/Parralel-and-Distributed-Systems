@@ -42,27 +42,27 @@ def write_arrays(sparse):
     Saves the sp_array as sparse.txt and the ingoing as ingoing.txt
     """
     N = max(flatten(sparse)) + 1
-    sp_array = [[] for i in range(N)]
-    ingoing = [0] * N
-    outgoing = [0] * N
+    # sp_array = [[] for i in range(N)]
+    # ingoing = [0] * N
+    # outgoing = [0] * N
 
-    for rs in sparse:
-        outgoing[rs[1]] += 1
-        ingoing[rs[0]] += 1
+    # for rs in sparse:
+    #     outgoing[rs[1]] += 1
+    #     ingoing[rs[0]] += 1
 
-    for rs in sparse:
-        sp_array[rs[0]].append(rs[1])
-        sp_array[rs[0]].append(-d/outgoing[rs[1]])
+    # for rs in sparse:
+    #     sp_array[rs[0]].append(rs[1])
+    #     sp_array[rs[0]].append(-d/outgoing[rs[1]])
 
-    with open('data/sparse.txt', 'w') as f:
-        for row in sp_array:
-            for col in row:
-                f.write(str(col) + ' ')
-            f.write('\n')
+    # with open('data/sparse.txt', 'w') as f:
+    #     for row in sp_array:
+    #         for col in row:
+    #             f.write(str(col) + ' ')
+    #         f.write('\n')
 
-    with open('data/ingoing.txt', 'w') as f:
-        for row in ingoing:
-            f.write(str(row) + '\n')
+    # with open('data/ingoing.txt', 'w') as f:
+    #     for row in ingoing:
+    #         f.write(str(row) + '\n')
 
     return N
 
@@ -77,15 +77,19 @@ def flatten(seq):
 
 
 def main():
-    if len(sys.argv) != 4:
+    if len(sys.argv) < 4:
         print('You need to specify the dataset path, the number of max iterations' \
-              ' and whether the dataset is 0 or 1 indexed (0,1)!')
+              ' , whether the dataset is 0 or 1 indexed (0,1) and the number of threads in case of parallel executing.')
         exit()
 
     # command line arguments
     dpath = sys.argv[1]
     iterations = sys.argv[2]
     ind = int(sys.argv[3])
+    try:
+        ts = int(sys.argv[4])
+    except IndexError:
+        ts = 0
 
     try:
         edited_data = reverse_mat(dpath, ind)
@@ -98,7 +102,7 @@ def main():
     print('Data files created.')
 
     # run pagerank.c <number_of_websites> <number_of_max_iterations>
-    call(["./pagerank", str(websites), iterations])
+    call(["./pagerank", str(websites), iterations, str(ts)])
 
 
 if __name__ == '__main__':
