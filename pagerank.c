@@ -86,7 +86,6 @@ void gs(float** array){
 				row_sum += array[i][2*j+1] * page_rank[col];
 			}
 			temp = (b[i] - row_sum);
-			printf("%f %f %f \n", temp, b[i], row_sum);
 			error = fabs(page_rank[i] - temp);
 			if (error>max_e){
 				max_error = error;
