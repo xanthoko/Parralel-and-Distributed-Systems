@@ -20,8 +20,8 @@ def reverse_mat(path, ind_f):
     rev_sparse = []
     content = [x.strip() for x in a]
     for line in content:
-        rc = line.split(' ')[0].split('\t')
-        # rc = line.split(' ')
+        # rc = line.split(' ')[0].split('\t')
+        rc = line.split(' ')
         if ind_f:
             new_rc = [int(rc[1]) - 1, int(rc[0]) - 1]
         else:
@@ -42,27 +42,27 @@ def write_arrays(sparse):
     Saves the sp_array as sparse.txt and the ingoing as ingoing.txt
     """
     N = max(flatten(sparse)) + 1
-    # sp_array = [[] for i in range(N)]
-    # ingoing = [0] * N
-    # outgoing = [0] * N
+    sp_array = [[] for i in range(N)]
+    ingoing = [0] * N
+    outgoing = [0] * N
 
-    # for rs in sparse:
-    #     outgoing[rs[1]] += 1
-    #     ingoing[rs[0]] += 1
+    for rs in sparse:
+        outgoing[rs[1]] += 1
+        ingoing[rs[0]] += 1
 
-    # for rs in sparse:
-    #     sp_array[rs[0]].append(rs[1])
-    #     sp_array[rs[0]].append(-d/outgoing[rs[1]])
+    for rs in sparse:
+        sp_array[rs[0]].append(rs[1])
+        sp_array[rs[0]].append(-d/outgoing[rs[1]])
 
-    # with open('data/sparse.txt', 'w') as f:
-    #     for row in sp_array:
-    #         for col in row:
-    #             f.write(str(col) + ' ')
-    #         f.write('\n')
+    with open('data/sparse.txt', 'w') as f:
+        for row in sp_array:
+            for col in row:
+                f.write(str(col) + ' ')
+            f.write('\n')
 
-    # with open('data/ingoing.txt', 'w') as f:
-    #     for row in ingoing:
-    #         f.write(str(row) + '\n')
+    with open('data/ingoing.txt', 'w') as f:
+        for row in ingoing:
+            f.write(str(row) + '\n')
 
     return N
 

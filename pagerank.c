@@ -74,19 +74,19 @@ void arrays_init(float b_val){
 
 // The Gauss Seidel algorithm implementation.
 void gs(float** array){
-	int i, row, col, j, it;
+	int i, col, j, it;
 	float row_sum, error, temp, max_error;
 
 	for (it=0;it<max_it;it++){
 		#pragma omp parallel for num_threads(threads)
 		for(i=0;i<N;i++){
 			row_sum = 0;
-			row = i;
 			for(j=0;j<ingoing[i];j++){
 				col = array[i][2*j];
-				row_sum += array[row][2*j+1] * page_rank[col];
+				row_sum += array[i][2*j+1] * page_rank[col];
 			}
 			temp = (b[i] - row_sum);
+			printf("%f %f %f \n", temp, b[i], row_sum);
 			error = fabs(page_rank[i] - temp);
 			if (error>max_e){
 				max_error = error;
