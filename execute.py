@@ -20,8 +20,8 @@ def reverse_mat(path, ind_f):
     rev_sparse = []
     content = [x.strip() for x in a]
     for line in content:
-        # rc = line.split(' ')[0].split('\t')
-        rc = line.split(' ')
+        rc = line.split(' ')[0].split('\t')
+        # rc = line.split(' ')
         if ind_f:
             new_rc = [int(rc[1]) - 1, int(rc[0]) - 1]
         else:
